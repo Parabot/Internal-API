@@ -35,7 +35,7 @@ public class Logger {
      * @param data Error data.
      */
     public static void error(String tag, String data) {
-        System.out.println(LoggerColor.RED + "[Error] : " + tag + " - " + data + LoggerColor.RESET);
+        System.out.println(LoggerColor.RED.getAnsi() + "[Error] : " + tag + " - " + data + LoggerColor.RESET.getAnsi());
     }
 
     /**
@@ -46,9 +46,9 @@ public class Logger {
      * @param throwable Error or Exception.
      */
     public static void error(String tag, String data, Throwable throwable) {
-        System.out.println(LoggerColor.RED + "[Error] : " + tag + " - " + data);
+        System.out.println(LoggerColor.RED.getAnsi() + "[Error] : " + tag + " - " + data);
         throwable.printStackTrace();
-        System.out.println(LoggerColor.RESET);
+        System.out.println(LoggerColor.RESET.getAnsi());
 
     }
 
@@ -59,7 +59,7 @@ public class Logger {
      * @param data Information data.
      */
     public static void info(String tag, String data) {
-        System.out.println(LoggerColor.BLUE + "[Info] : " + tag + " - " + data + LoggerColor.RESET);
+        System.out.println(LoggerColor.BLUE.getAnsi() + "[Info] : " + tag + " - " + data + LoggerColor.RESET.getAnsi());
     }
 
     /**
@@ -69,7 +69,7 @@ public class Logger {
      * @param data Warning data.
      */
     public static void warning(String tag, String data) {
-        System.out.println(LoggerColor.YELLOW + "[Warning] : " + tag + " - " + data + LoggerColor.RESET);
+        System.out.println(LoggerColor.YELLOW.getAnsi() + "[Warning] : " + tag + " - " + data + LoggerColor.RESET.getAnsi());
     }
 
     /**
@@ -79,7 +79,7 @@ public class Logger {
      * @param data Debug data.
      */
     public static void debug(String tag, String data) {
-        System.out.println(LoggerColor.GREEN + "[Debug] : " + tag + " - " + data + LoggerColor.RESET);
+        System.out.println(LoggerColor.GREEN.getAnsi() + "[Debug] : " + tag + " - " + data + LoggerColor.RESET.getAnsi());
     }
 
     /**
@@ -89,6 +89,6 @@ public class Logger {
      * @param header Reference to the reason this message is printed I.E WARNING, DEBUG.
      */
     public static void custom(String tag, String data, LoggerColor color, String header) {
-        System.out.println(color + "[" + header.toUpperCase() + "] : " + tag + " - " + data + LoggerColor.RESET);
+        System.out.println(color.getAnsi() + "[" + header.toUpperCase() + "] : " + tag + " - " + data + LoggerColor.RESET.getAnsi());
     }
 }
