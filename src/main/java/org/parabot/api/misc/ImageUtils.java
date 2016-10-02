@@ -12,7 +12,7 @@ import java.net.URL;
 public class ImageUtils {
 
     /**
-     * Get's an image from local device
+     * Gets an image from local device
      *
      * @param location Location of the image
      * @return image from location.
@@ -27,7 +27,7 @@ public class ImageUtils {
     }
 
     /**
-     * Get's an image from the given URL.
+     * Gets an image from the given URL.
      *
      * @param url Url of th image.
      * @return image from location.
