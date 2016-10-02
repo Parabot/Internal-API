@@ -86,9 +86,9 @@ public class Logger {
      * @param tag    Reference to the location , I.E Core, UserInterface.
      * @param data   Data to Print.
      * @param color  Color to print the the data in.
-     * @param header Reference to the reason this message is printed I.E WARNING, DEBUG.
+     * @param header Reference to the reason this message is printed I.E Warning, Debug.
      */
     public static void custom(String tag, String data, LoggerColor color, String header) {
-        System.out.println(color.getAnsi() + "[" + header.toUpperCase() + "] : " + tag + " - " + data + LoggerColor.RESET.getAnsi());
+        System.out.println(color.getAnsi() + "[" + header + "] : " + tag + " - " + data + LoggerColor.RESET.getAnsi());
     }
 }
