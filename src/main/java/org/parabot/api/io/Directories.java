@@ -64,7 +64,8 @@ public class Directories {
                 } else {
                     cached.put("Home", createCacheDirectory(cache));
                 }
-            } catch (IOException | ParseException ignored) {
+            } catch (IOException | ParseException e) {
+                e.printStackTrace();
                 cached.put("Home", new File(cached.get("Root"), "/" + tempDir + "/"));
             }
             if (!cached.get("Home").exists()) {
@@ -270,7 +271,7 @@ public class Directories {
                             String dir = (String) dirObject;
                             if (dir.length() > 0) {
                                 File cacheDir = new File(cached.get("Root"), "/" + dir + "/");
-                                removeDirectory(cacheDir);
+                                removeDirectory(cacheDir, true);
                                 createCacheDirectory(cacheFile);
                             }
                         }
@@ -294,7 +295,7 @@ public class Directories {
     /**
      * @param file Directory to be removed
      */
-    private static void removeDirectory(File file) {
+    private static void removeDirectory(File file, boolean root) {
         if (file.isDirectory()) {
             if (file.list().length == 0) {
                 file.delete();
@@ -304,7 +305,7 @@ public class Directories {
                 String files[] = file.list();
                 for (String temp : files) {
                     File fileDelete = new File(file, temp);
-                    removeDirectory(fileDelete);
+                    removeDirectory(fileDelete, false);
                 }
 
                 if (file.list().length == 0) {
@@ -312,6 +313,9 @@ public class Directories {
                     Verboser.verbose("Directory is deleted : "
                             + file.getAbsolutePath());
                 }
+            }
+            if (root){
+                file.delete();
             }
         } else {
             file.delete();
