@@ -55,7 +55,7 @@
     </dependencies>
 
     <build>
-        <finalName>Parabot-API-V${version}${build.version}</finalName>
+        <finalName>Parabot-Internal-API-${version}${build.version}</finalName>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
