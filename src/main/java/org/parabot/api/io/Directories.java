@@ -3,7 +3,7 @@ package org.parabot.api.io;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import org.parabot.api.misc.OperatingSystem;
-import org.parabot.api.misc.StringUtils;
+import org.parabot.api.misc.StringUtil;
 import org.parabot.api.output.Verboser;
 
 import javax.swing.*;
@@ -50,7 +50,7 @@ public class Directories {
 
     private static void setHomeDirectory() {
         File cache;
-        tempDir = StringUtils.randomString(12);
+        tempDir = StringUtil.randomString(12);
         try {
             if ((cache = new File(Directories.getSettingsPath(), "cache.json")).exists()) {
                 JSONObject object = (JSONObject) WebUtil.getJsonParser().parse(new FileReader(cache));

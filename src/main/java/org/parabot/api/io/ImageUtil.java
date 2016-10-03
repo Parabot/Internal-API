@@ -1,4 +1,4 @@
-package org.parabot.api.misc;
+package org.parabot.api.io;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -9,7 +9,7 @@ import java.net.URL;
 /**
  * @author Fryslan
  */
-public class ImageUtils {
+public class ImageUtil {
 
     /**
      * Gets an image from local device

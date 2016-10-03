@@ -3,7 +3,7 @@ package org.parabot.api.misc;
 /**
  * @author mkyong, JKetelaar
  */
-public class StringUtils {
+public class StringUtil {
 
     private static java.util.Random random = new java.util.Random();
     private static char[] chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890".toCharArray();
