@@ -18,9 +18,11 @@ import java.util.*;
  * @author Matt
  */
 public class Directories {
+
     private static Map<String, File> cached;
     private static String tempDir;
     private static File temp = null;
+    private static boolean homeDirectorySet;
 
     static {
         cached = new HashMap<>();
@@ -48,26 +50,31 @@ public class Directories {
         clearCache(259200);
     }
 
-    private static void setHomeDirectory() {
-        File cache;
-        tempDir = StringUtil.randomString(12);
-        try {
-            if ((cache = new File(Directories.getSettingsPath(), "cache.json")).exists()) {
-                JSONObject object = (JSONObject) WebUtil.getJsonParser().parse(new FileReader(cache));
-                String temp;
-                if ((temp = (String) object.get("homedir")) != null) {
-                    cached.put("Home", new File(cached.get("Root"), "/" + temp + "/"));
+    public static void setHomeDirectory() {
+        if (!homeDirectorySet) {
+            File cache;
+            tempDir = StringUtil.randomString(12);
+            try {
+                if ((cache = new File(Directories.getSettingsPath(), "cache.json")).exists()) {
+                    JSONObject object = (JSONObject) WebUtil.getJsonParser().parse(new FileReader(cache));
+                    String temp;
+                    if ((temp = (String) object.get("homedir")) != null) {
+                        cached.put("Home", new File(cached.get("Root"), "/" + temp + "/"));
+                    }
+                } else {
+                    cached.put("Home", createCacheDirectory(cache));
                 }
-            } else {
-                cached.put("Home", createCacheDirectory(cache));
+            } catch (IOException | ParseException ignored) {
+                cached.put("Home", new File(cached.get("Root"), "/" + tempDir + "/"));
             }
-        } catch (IOException | ParseException ignored) {
-            cached.put("Home", new File(cached.get("Root"), "/" + tempDir + "/"));
+            if (!cached.get("Home").exists()) {
+                cached.get("Home").mkdirs();
+            }
+            homeDirectorySet = true;
+            System.out.println("Set temporary cache directory to: " + cached.get("Home"));
+        } else {
+            System.out.println("Home directory already set");
         }
-        if (!cached.get("Home").exists()) {
-            cached.get("Home").mkdirs();
-        }
-        System.out.println("Set temporary cache directory to: " + cached.get("Home"));
     }
 
     private static File createCacheDirectory(File cacheFile) throws IOException {
