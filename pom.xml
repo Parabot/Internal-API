@@ -6,7 +6,7 @@
 
     <groupId>org.parabot</groupId>
     <artifactId>internal-api</artifactId>
-    <version>1.01</version>
+    <version>1.02</version>
 
     <packaging>jar</packaging>
 
@@ -30,9 +30,9 @@
 
     <repositories>
         <repository>
-            <id>git-parabot</id>
-            <name>Parabot's Git based repo</name>
-            <url>https://github.com/parabot/Maven-Repository/raw/master/</url>
+            <id>parabot-maven</id>
+            <name>Parabot its Maven Repository</name>
+            <url>http://maven.parabot.org/</url>
         </repository>
     </repositories>
 
