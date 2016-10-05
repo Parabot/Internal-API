@@ -1,13 +1,11 @@
 package org.parabot.api.io;
 
-import org.json.simple.JSONObject;
-import org.json.simple.parser.ParseException;
 import org.parabot.api.misc.OperatingSystem;
-import org.parabot.api.misc.StringUtil;
 import org.parabot.api.output.Verboser;
 
 import javax.swing.*;
-import java.io.*;
+import java.io.File;
+import java.io.FilenameFilter;
 import java.util.*;
 
 /**
@@ -20,9 +18,7 @@ import java.util.*;
 public class Directories {
 
     private static Map<String, File> cached;
-    private static String tempDir;
     private static File temp = null;
-    private static boolean homeDirectorySet;
 
     static {
         cached = new HashMap<>();
@@ -48,51 +44,6 @@ public class Directories {
         Verboser.verbose("Directories cached.");
 
         clearCache(259200);
-    }
-
-    public static void setHomeDirectory() {
-        if (!homeDirectorySet) {
-            File cache;
-            tempDir = StringUtil.randomString(12);
-            try {
-                if ((cache = new File(Directories.getSettingsPath(), "cache.json")).exists()) {
-                    JSONObject object = (JSONObject) WebUtil.getJsonParser().parse(new FileReader(cache));
-                    String temp;
-                    if ((temp = (String) object.get("homedir")) != null) {
-                        cached.put("Home", new File(cached.get("Root"), "/" + temp + "/"));
-                    }
-                } else {
-                    cached.put("Home", createCacheDirectory(cache));
-                }
-            } catch (IOException | ParseException e) {
-                e.printStackTrace();
-                cached.put("Home", new File(cached.get("Root"), "/" + tempDir + "/"));
-            }
-            if (!cached.get("Home").exists()) {
-                cached.get("Home").mkdirs();
-            }
-            homeDirectorySet = true;
-            System.out.println("Set temporary cache directory to: " + cached.get("Home"));
-        } else {
-            System.out.println("Home directory already set");
-        }
-    }
-
-    private static File createCacheDirectory(File cacheFile) throws IOException {
-        cacheFile.createNewFile();
-        JSONObject object = new JSONObject();
-        object.put("homedir", tempDir);
-        FileWriter file = new FileWriter(cacheFile);
-        file.write(object.toJSONString());
-        file.flush();
-        file.close();
-
-        File cacheDir = new File(cached.get("Root"), "/" + tempDir + "/");
-        if (!cacheDir.exists()) {
-            cacheDir.mkdirs();
-        }
-
-        return cacheDir;
     }
 
     /**
@@ -258,30 +209,6 @@ public class Directories {
                 }
             }
         }
-
-        if (force) {
-            File cacheFile;
-
-            if ((cacheFile = new File(Directories.getSettingsPath(), "cache.json")).exists()) {
-                try {
-                    JSONObject jsonObject = (JSONObject) WebUtil.getJsonParser().parse(new FileReader(cacheFile));
-                    if (jsonObject != null) {
-                        Object dirObject;
-                        if ((dirObject = jsonObject.get("homedir")) != null) {
-                            String dir = (String) dirObject;
-                            if (dir.length() > 0) {
-                                File cacheDir = new File(cached.get("Root"), "/" + dir + "/");
-                                removeDirectory(cacheDir, true);
-                                createCacheDirectory(cacheFile);
-                            }
-                        }
-                    }
-
-                } catch (IOException | ParseException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
     }
 
     private static void clearCache(int remove) {
@@ -310,11 +237,11 @@ public class Directories {
 
                 if (file.list().length == 0) {
                     file.delete();
-                    Verboser.verbose("Directory is deleted : "
+                    Verboser.verbose("Directory is deleted: "
                             + file.getAbsolutePath());
                 }
             }
-            if (root){
+            if (root) {
                 file.delete();
             }
         } else {
