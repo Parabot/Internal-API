@@ -6,7 +6,7 @@
 
     <groupId>org.parabot</groupId>
     <artifactId>internal-api</artifactId>
-    <version>1.02.8</version>
+    <version>1.03.1</version>
 
     <packaging>jar</packaging>
 

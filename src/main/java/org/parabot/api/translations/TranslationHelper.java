@@ -3,10 +3,9 @@ package org.parabot.api.translations;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import org.parabot.api.io.WebUtil;
+import sun.misc.IOUtils;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 
@@ -25,22 +24,24 @@ public class TranslationHelper {
         availableLanguages.put("pt", new TranslationLanguage("pt", "Portuguese"));
     }
 
-    public static File getTranslationFile(String languageKey){
-        try {
-            return new File(TranslationHelper.class.getResource("/storage/languages/strings_" + languageKey + ".json").toURI());
-        } catch (URISyntaxException e) {
+    public static HashMap<String, String> fileToHashmap(HashMap<String, String> hashMap, String key){
+        String full = "";
+
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(TranslationHelper.class.getResourceAsStream("/storage/languages/strings_" + key + ".json")))) {
+            String line;
+            while((line = br.readLine()) != null){
+                full += line;
+            }
+        } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
-    }
 
-    public static HashMap<String, String> fileToHashmap(HashMap<String, String> hashMap, File file){
         try {
-            JSONObject object = (JSONObject) WebUtil.getJsonParser().parse(new FileReader(file));
+            JSONObject object = (JSONObject) WebUtil.getJsonParser().parse(full);
             for (Object s : object.keySet()){
                 hashMap.put((String) s, (String) object.get(s));
             }
-        } catch (IOException | ParseException e) {
+        } catch (ParseException e) {
             e.printStackTrace();
         }
         return hashMap;

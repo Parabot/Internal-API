@@ -24,8 +24,7 @@ public class TranslationLanguage {
 
     public HashMap<String, String> getTranslations() {
         if (translations.size() <= 0){
-            File languageFile = TranslationHelper.getTranslationFile(this.key);
-            translations = TranslationHelper.fileToHashmap(translations, languageFile);
+            translations = TranslationHelper.fileToHashmap(translations, this.key);
         }
         return translations;
     }
