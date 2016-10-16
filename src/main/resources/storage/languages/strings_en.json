@@ -1,0 +1,13 @@
+{
+	"DEBUG_MODE": "Debug mode: ",
+	"SETTING_LOOK_AND_FEEL": "Setting look and feel: ",
+	"UPDATES": "Updates",
+	"DOWNLOAD_UPDATE_PARABOT_AT": "Please download the newest version of Parabot at ",
+	"CONNECTION_ERROR": "Connection Error",
+	"ERROR": "Error",
+	"VALIDATING_DIRECTORIES": "Validating directories...",
+	"VALIDATION_ACCOUNT_MANAGER": "Validating account manager...",
+	"STARTING_LOGIN_GUI": "Starting login gui...",
+	"DIRECTORIES_CREATED": "Directories created, you can now run parabot.",
+	"INVALID_PROXY_TYPE": "Invalid proxy type: "
+}
