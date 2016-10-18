@@ -1,0 +1,28 @@
+language: java
+
+jdk:
+  - oraclejdk7
+  - oraclejdk8
+
+before_install:
+  - chmod +x ./.travis/maven-build.sh
+  - mvn clean
+
+install:
+  - sudo apt-get update && sudo apt-get --assume-yes install zip unzip
+
+script: "./.travis/maven-build.sh"
+
+notifications:
+  email: false
+  slack:
+    secure: "rEzlQimgk1zgFRCosY6bM+45hkNBHMcnb8QlHIhGsDQsnj1aawmXN8WG7my/KokJ2mkmEXwusyZhCe4tbdCFnW07sDtV1OKZ30GR7TIXuqAduv5Fx+qF/uc4xGj6NRN5Gegk1SwDqMjkq9Y9aH44OkBqGBfr4js0Go0QK3GqMPO9hv6LDXeSNgK53Bqse8q6UWN/YRxyqG3dRgPnItMxn/EnuHxnI4KXaTPgx9rvnmlrPB4GuSN0E37Y2WDAx1JPVqvvyuLFE/ZLx/s/Q9gP/3hk3o6oaiPUw/LAmdCtuaTjR5bGOOvD2gHbuOQ97+q3Do0ru4GDgKyF8UKE1B6BV8IElTrEmPC3zL9/Ch3GYtt/DqkkFjbKPCg24fRrtNfOj5DJrSNmlEH/ajs1xVZV7HCaK9GRBdtHmucd0/gQTAx/f1RDhrDS/HCge85dRI+XYMXeWfgl5gaCMJNLowYOry+jjrJoTdCph4sj8OK5yH0TpcNbR3fzyVH0z+FWMBd6DHXbkzilfUh4UQrMA++Vqch8WiRWv6gIuZJz5wqWXd23uX2FyCVUnQYTpSYj9Obl5t7JUECEks6asgdiUsZScCCOfkawpxCeviiKDY4vaQRZ8Uaee02RWZya6qwnmGpr83rCTHh/wyU4oA+vu5JNrGEgvOSK6deniuzUsb+hoSA="
+  webhooks:
+    on_success: always
+    on_failure: always
+    on_start: never
+
+cache:
+  directories:
+    - ".autoconf"
+    - "$HOME/.m2"
