@@ -6,10 +6,9 @@ import org.parabot.api.Configuration;
 import org.parabot.api.io.Directories;
 import org.parabot.api.io.WebUtil;
 
-import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
@@ -24,6 +23,7 @@ public class TranslationHelper {
 
     static {
         availableLanguages = new HashMap<>();
+        getTranslations();
     }
 
 
@@ -32,9 +32,12 @@ public class TranslationHelper {
             JSONObject object = (JSONObject) WebUtil.getJsonParser().parse(WebUtil.getContents(Configuration.LIST_TRANSLATIONS));
             JSONObject languages = (JSONObject) object.get("languages");
             for (Object key : languages.keySet()) {
-                String keyStr = (String) key;
-                String keyValue = languages.get(keyStr).toString();
-                downloadJson(keyStr);
+                String languageKey = (String) key;
+                String languageName = languages.get(languageKey).toString();
+
+                downloadJson(languageKey);
+
+                availableLanguages.put(languageKey, new TranslationLanguage(languageKey, languageName));
             }
         } catch (MalformedURLException | ParseException e) {
             e.printStackTrace();
@@ -53,23 +56,16 @@ public class TranslationHelper {
     }
 
     public static HashMap<String, String> fileToHashmap(HashMap<String, String> hashMap, String key) {
-        String full = "";
-
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(TranslationHelper.class.getResourceAsStream("/storage/languages/strings_" + key + ".json")))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                full += line;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+        File languageFile = new File(Directories.getLanguagesPath() + "/" + key + ".json");
+        if (!languageFile.exists()) {
+            getTranslations();
         }
-
         try {
-            JSONObject object = (JSONObject) WebUtil.getJsonParser().parse(full);
+            JSONObject object = (JSONObject) WebUtil.getJsonParser().parse(new FileReader(languageFile));
             for (Object s : object.keySet()) {
                 hashMap.put((String) s, (String) object.get(s));
             }
-        } catch (ParseException e) {
+        } catch (ParseException | IOException e) {
             e.printStackTrace();
         }
         return hashMap;
