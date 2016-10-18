@@ -2,11 +2,15 @@ package org.parabot.api.translations;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
+import org.parabot.api.io.Directories;
 import org.parabot.api.io.WebUtil;
-import sun.misc.IOUtils;
 
-import java.io.*;
-import java.net.URISyntaxException;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 
 /**
@@ -19,17 +23,40 @@ public class TranslationHelper {
 
     static {
         availableLanguages = new HashMap<>();
-        availableLanguages.put("en", new TranslationLanguage("en", "English"));
-        availableLanguages.put("nl", new TranslationLanguage("nl", "Dutch"));
-        availableLanguages.put("pt", new TranslationLanguage("pt", "Portuguese"));
     }
 
-    public static HashMap<String, String> fileToHashmap(HashMap<String, String> hashMap, String key){
+
+    public static void getTranslations() {
+        try {
+            JSONObject object = (JSONObject) WebUtil.getJsonParser().parse(WebUtil.getContents("http://v3.bdn.parabot.org/api/bot/translations/list"));
+            JSONObject languages = (JSONObject) object.get("languages");
+            for (Object key : languages.keySet()) {
+                String keyStr = (String) key;
+                String keyValue = languages.get(keyStr).toString();
+                downloadJson(keyStr);
+            }
+        } catch (MalformedURLException | ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void downloadJson(String key) {
+        File keyFile = new File(Directories.getLanguagesPath() + "/" + key + ".json");
+        try {
+            if (!keyFile.exists()) {
+                WebUtil.downloadFile(new URL("http://v3.bdn.parabot.org/api/bot/translations/get/" + key), keyFile);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static HashMap<String, String> fileToHashmap(HashMap<String, String> hashMap, String key) {
         String full = "";
 
         try (BufferedReader br = new BufferedReader(new InputStreamReader(TranslationHelper.class.getResourceAsStream("/storage/languages/strings_" + key + ".json")))) {
             String line;
-            while((line = br.readLine()) != null){
+            while ((line = br.readLine()) != null) {
                 full += line;
             }
         } catch (IOException e) {
@@ -38,7 +65,7 @@ public class TranslationHelper {
 
         try {
             JSONObject object = (JSONObject) WebUtil.getJsonParser().parse(full);
-            for (Object s : object.keySet()){
+            for (Object s : object.keySet()) {
                 hashMap.put((String) s, (String) object.get(s));
             }
         } catch (ParseException e) {
@@ -47,9 +74,9 @@ public class TranslationHelper {
         return hashMap;
     }
 
-    public static TranslationLanguage getLanguage(String key){
+    public static TranslationLanguage getLanguage(String key) {
         for (String lang : availableLanguages.keySet()) {
-            if (lang.equalsIgnoreCase(key)){
+            if (lang.equalsIgnoreCase(key)) {
                 return availableLanguages.get(lang);
             }
         }
@@ -60,7 +87,7 @@ public class TranslationHelper {
         return availableLanguages;
     }
 
-    public static void setCurrentLanguage(String key){
+    public static void setCurrentLanguage(String key) {
         for (String lang : availableLanguages.keySet()) {
             if (lang.equalsIgnoreCase(key)) {
                 currentLanguage = lang;
@@ -71,13 +98,13 @@ public class TranslationHelper {
         currentLanguage = DEFAULT_LANGUAGE;
     }
 
-    public static String translate(String translationKey){
-        if (currentLanguage == null){
+    public static String translate(String translationKey) {
+        if (currentLanguage == null) {
             setCurrentLanguage(DEFAULT_LANGUAGE);
         }
 
         String translation;
-        if ((translation = availableLanguages.get(currentLanguage).getTranslations().get(translationKey)) == null){
+        if ((translation = availableLanguages.get(currentLanguage).getTranslations().get(translationKey)) == null) {
             translation = availableLanguages.get(DEFAULT_LANGUAGE).getTranslations().get(translationKey);
         }
         return translation;
