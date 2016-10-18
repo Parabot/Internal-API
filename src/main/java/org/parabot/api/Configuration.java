@@ -3,7 +3,7 @@ package org.parabot.api;
 /**
  * @author JKetelaar
  */
-public final class Configuration {
+public class Configuration {
 
     public static final String BOT_TITLE = "Parabot";
     public static final String BOT_SLOGAN = "The best RuneScape private server bot";
