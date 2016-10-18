@@ -11,7 +11,7 @@ import java.util.HashMap;
  * @author Everel, JKetelaar
  *
  */
-public final class Images {
+public class Images {
     private static final HashMap<String, BufferedImage> IMAGE_CACHE = new HashMap<>();
 	
 	public static BufferedImage getResource(final String resource) {
