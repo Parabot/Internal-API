@@ -11,7 +11,7 @@ import java.lang.reflect.Method;
 /**
  * Holds various swing util based methods
  *
- * @author Dane
+ * @author Dane, JKetelaar
  */
 public class SwingUtil {
 
