@@ -225,6 +225,16 @@ public class WebUtil {
      *
      * @param url
      * @param destination
+     */
+    public static void downloadFile(final URL url, final File destination) {
+        downloadFile(url, destination, null, null, null);
+    }
+
+    /**
+     * Downloads a file on the internet
+     *
+     * @param url
+     * @param destination
      * @param listener
      */
     public static void downloadFile(final URL url, final File destination,

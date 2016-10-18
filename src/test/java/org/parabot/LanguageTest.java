@@ -1,24 +1,42 @@
 package org.parabot;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
+import org.parabot.api.io.Directories;
 import org.parabot.api.translations.TranslationHelper;
 import org.parabot.api.translations.TranslationLanguage;
-
-import java.util.HashMap;
 
 /**
  * @author JKetelaar
  */
 public class LanguageTest {
+
+    @Before
+    public void setUp(){
+        Directories.validate();
+    }
+
     @Test
-    public void test() {
-        HashMap<String, TranslationLanguage> s = TranslationHelper.getAvailableLanguages();
-        Assert.assertTrue(s.size() >= 0);
+    public void testAmount() {
+        Assert.assertTrue(TranslationHelper.getAvailableLanguages().size() > 0);
+    }
 
-        Assert.assertEquals(TranslationHelper.translate("DEBUG_MODE"), "Debug mode: ");
+    @Test
+    public void testAfterCacheClearing() {
+        Assert.assertTrue(TranslationHelper.getAvailableLanguages().size() > 0);
+        Directories.clearCache();
+        Assert.assertEquals(TranslationHelper.translate("APPLET_FETCHED"), "Applet fetched.");
+    }
 
-        TranslationHelper.setCurrentLanguage("nl");
-        Assert.assertEquals(TranslationHelper.translate("DEBUG_MODE"), "Foutopsporing modus: ");
+    @Test
+    public void testOtherLanguage() {
+        for (TranslationLanguage language : TranslationHelper.getAvailableLanguages().values()) {
+            if (!language.getKey().equalsIgnoreCase(TranslationHelper.DEFAULT_LANGUAGE)) {
+                TranslationHelper.setCurrentLanguage(language.getKey());
+            }
+        }
+        String translation = TranslationHelper.translate("DOWNLOAD_UPDATE_PARABOT_AT");
+        Assert.assertTrue(translation != null && !translation.equals("Please download the newest version of Parabot at "));
     }
 }
