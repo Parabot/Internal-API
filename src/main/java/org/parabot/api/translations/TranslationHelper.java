@@ -2,6 +2,7 @@ package org.parabot.api.translations;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
+import org.parabot.api.Configuration;
 import org.parabot.api.io.Directories;
 import org.parabot.api.io.WebUtil;
 
@@ -28,7 +29,7 @@ public class TranslationHelper {
 
     public static void getTranslations() {
         try {
-            JSONObject object = (JSONObject) WebUtil.getJsonParser().parse(WebUtil.getContents("http://v3.bdn.parabot.org/api/bot/translations/list"));
+            JSONObject object = (JSONObject) WebUtil.getJsonParser().parse(WebUtil.getContents(Configuration.LIST_TRANSLATIONS));
             JSONObject languages = (JSONObject) object.get("languages");
             for (Object key : languages.keySet()) {
                 String keyStr = (String) key;
@@ -44,7 +45,7 @@ public class TranslationHelper {
         File keyFile = new File(Directories.getLanguagesPath() + "/" + key + ".json");
         try {
             if (!keyFile.exists()) {
-                WebUtil.downloadFile(new URL("http://v3.bdn.parabot.org/api/bot/translations/get/" + key), keyFile);
+                WebUtil.downloadFile(new URL(String.format(Configuration.GET_TRANSLATION, key)), keyFile);
             }
         } catch (IOException e) {
             e.printStackTrace();
