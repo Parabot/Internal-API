@@ -1,6 +1,5 @@
 package org.parabot.api.translations;
 
-import java.io.File;
 import java.util.HashMap;
 
 /**
@@ -23,7 +22,7 @@ public class TranslationLanguage {
     }
 
     public HashMap<String, String> getTranslations() {
-        if (translations.size() <= 0){
+        if (translations.size() <= 0) {
             translations = TranslationHelper.fileToHashmap(translations, this.key);
         }
         return translations;

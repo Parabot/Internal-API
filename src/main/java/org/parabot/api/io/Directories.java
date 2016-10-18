@@ -40,6 +40,7 @@ public class Directories {
         cached.put("Settings", new File(cached.get("Root"), "/Parabot/settings/"));
         cached.put("Servers", new File(cached.get("Root"), "/Parabot/servers/"));
         cached.put("Cache", new File(cached.get("Root"), "/Parabot/cache/"));
+        cached.put("Languages", new File(cached.get("Cache") + "/languages/"));
         cached.put("Screenshots", new File(cached.get("Root"), "/Parabot/screenshots/"));
         Verboser.verbose("Directories cached.");
 
@@ -140,6 +141,10 @@ public class Directories {
      */
     public static File getCachePath() {
         return cached.get("Cache");
+    }
+
+    public static File getLanguagesPath() {
+        return cached.get("Languages");
     }
 
     /**
