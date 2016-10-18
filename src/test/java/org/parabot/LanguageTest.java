@@ -1,6 +1,7 @@
 package org.parabot;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.parabot.api.io.Directories;
 import org.parabot.api.translations.TranslationHelper;
@@ -10,6 +11,11 @@ import org.parabot.api.translations.TranslationLanguage;
  * @author JKetelaar
  */
 public class LanguageTest {
+
+    @Before
+    public void setUp(){
+        Directories.validate();
+    }
 
     @Test
     public void testAmount() {
