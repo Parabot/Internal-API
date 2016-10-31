@@ -10,7 +10,7 @@ import java.util.ArrayList;
  */
 public class NotificationManager {
 
-    private NotificationManager context;
+    private static NotificationManager context;
 
     private ArrayList<NotificationType> notificationTypes;
 
@@ -52,7 +52,7 @@ public class NotificationManager {
         return null;
     }
 
-    public NotificationManager getContext() {
+    public static NotificationManager getContext() {
         if (context == null) {
             context = new NotificationManager();
         }
