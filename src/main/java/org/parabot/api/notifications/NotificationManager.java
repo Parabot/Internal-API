@@ -4,13 +4,14 @@ import org.parabot.api.notifications.types.MacNotificationType;
 import org.parabot.api.notifications.types.NotificationType;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author JKetelaar
  */
 public class NotificationManager {
 
-    private NotificationManager context;
+    private static NotificationManager context;
 
     private ArrayList<NotificationType> notificationTypes;
 
@@ -42,6 +43,12 @@ public class NotificationManager {
         return types;
     }
 
+    public NotificationType getFirstAvailableNotificationType() {
+        List<NotificationType> types = getAvailableNotificationTypes();
+
+        return types.size() > 0 ? types.get(0) : null;
+    }
+
     public NotificationType getNotificationType(String name) {
         for (NotificationType notificationType : this.notificationTypes) {
             if (notificationType.getName().equalsIgnoreCase(name)) {
@@ -52,7 +59,7 @@ public class NotificationManager {
         return null;
     }
 
-    public NotificationManager getContext() {
+    public static NotificationManager getContext() {
         if (context == null) {
             context = new NotificationManager();
         }
