@@ -4,6 +4,7 @@ import org.parabot.api.notifications.types.MacNotificationType;
 import org.parabot.api.notifications.types.NotificationType;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author JKetelaar
@@ -40,6 +41,12 @@ public class NotificationManager {
         }
 
         return types;
+    }
+
+    public NotificationType getFirstAvailableNotificationType() {
+        List<NotificationType> types = getAvailableNotificationTypes();
+
+        return types.size() > 0 ? types.get(0) : null;
     }
 
     public NotificationType getNotificationType(String name) {
