@@ -12,10 +12,10 @@ public class TextUtils {
             '3', '4', '5', '6', '7', '8', '9'
     };
 
-    public static long longForName(String s) {
+    public static long longForName(String name) {
         long l = 0L;
-        for (int i = 0; i < s.length() && i < 12; i++) {
-            char c = s.charAt(i);
+        for (int i = 0; i < name.length() && i < 12; i++) {
+            char c = name.charAt(i);
             l *= 37L;
             if (c >= 'A' && c <= 'Z') {
                 l += (1 + c) - 65;
@@ -26,36 +26,40 @@ public class TextUtils {
             }
         }
 
-        for (; l % 37L == 0L && l != 0L; l /= 37L) ;
+        while (l % 37L == 0L && l != 0L) {
+            l /= 37L;
+        }
+
         return l;
     }
 
-    public static String nameForLong(long l) {
+    public static String nameForLong(long name) {
         try {
-            if (l <= 0L || l >= 0x5b5b57f8a98a5dd1L) {
+            if (name <= 0L || name >= 0x5b5b57f8a98a5dd1L) {
                 return "invalid_name";
             }
-            if (l % 37L == 0L) {
+            if (name % 37L == 0L) {
                 return "invalid_name";
             }
 
             int i = 0;
             char ac[] = new char[12];
-            while (l != 0L) {
-                long l1 = l;
-                l /= 37L;
-                ac[11 - i++] = validChars[(int) (l1 - l * 37L)];
+            while (name != 0L) {
+                long l1 = name;
+                name /= 37L;
+                ac[11 - i++] = validChars[(int) (l1 - name * 37L)];
             }
             return new String(ac, 12 - i, i);
-        } catch (RuntimeException rte) {
-            rte.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        throw new RuntimeException();
+
+        return null;
     }
 
-    public static String fixName(String s) {
-        if (s.length() > 0) {
-            char ac[] = s.toCharArray();
+    public static String fixName(String name) {
+        if (name.length() > 0) {
+            char ac[] = name.toCharArray();
             for (int j = 0; j < ac.length; j++)
                 if (ac[j] == '_') {
                     ac[j] = ' ';
@@ -69,7 +73,7 @@ public class TextUtils {
             }
             return new String(ac);
         } else {
-            return s;
+            return name;
         }
     }
 }
