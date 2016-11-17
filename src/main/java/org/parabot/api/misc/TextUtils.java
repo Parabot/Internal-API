@@ -17,12 +17,13 @@ public class TextUtils {
         for (int i = 0; i < s.length() && i < 12; i++) {
             char c = s.charAt(i);
             l *= 37L;
-            if (c >= 'A' && c <= 'Z')
+            if (c >= 'A' && c <= 'Z') {
                 l += (1 + c) - 65;
-            else if (c >= 'a' && c <= 'z')
+            } else if (c >= 'a' && c <= 'z') {
                 l += (1 + c) - 97;
-            else if (c >= '0' && c <= '9')
+            } else if (c >= '0' && c <= '9') {
                 l += (27 + c) - 48;
+            }
         }
 
         for (; l % 37L == 0L && l != 0L; l /= 37L) ;
@@ -31,10 +32,13 @@ public class TextUtils {
 
     public static String nameForLong(long l) {
         try {
-            if (l <= 0L || l >= 0x5b5b57f8a98a5dd1L)
+            if (l <= 0L || l >= 0x5b5b57f8a98a5dd1L) {
                 return "invalid_name";
-            if (l % 37L == 0L)
+            }
+            if (l % 37L == 0L) {
                 return "invalid_name";
+            }
+
             int i = 0;
             char ac[] = new char[12];
             while (l != 0L) {
@@ -55,12 +59,14 @@ public class TextUtils {
             for (int j = 0; j < ac.length; j++)
                 if (ac[j] == '_') {
                     ac[j] = ' ';
-                    if (j + 1 < ac.length && ac[j + 1] >= 'a' && ac[j + 1] <= 'z')
+                    if (j + 1 < ac.length && ac[j + 1] >= 'a' && ac[j + 1] <= 'z') {
                         ac[j + 1] = (char) ((ac[j + 1] + 65) - 97);
+                    }
                 }
 
-            if (ac[0] >= 'a' && ac[0] <= 'z')
+            if (ac[0] >= 'a' && ac[0] <= 'z') {
                 ac[0] = (char) ((ac[0] + 65) - 97);
+            }
             return new String(ac);
         } else {
             return s;
