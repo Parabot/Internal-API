@@ -15,4 +15,6 @@ public class Configuration {
 
     public static final String GET_TRANSLATION = "http://v3.bdn.parabot.org/api/bot/translations/get/%s";
     public static final String LIST_TRANSLATIONS = "http://v3.bdn.parabot.org/api/bot/translations/list";
+
+    public static final String NIGHTLY_APPEND = "?nightly=true";
 }

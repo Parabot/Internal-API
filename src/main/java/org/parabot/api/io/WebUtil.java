@@ -180,6 +180,22 @@ public class WebUtil {
         return null;
     }
 
+    public static URLConnection getConnection(final URL url, String parameters) {
+        try {
+            final URLConnection con = getConnection(url);
+            con.setDoOutput(true);
+            OutputStreamWriter wr = new OutputStreamWriter(con.getOutputStream());
+            wr.write(parameters);
+            wr.flush();
+            wr.close();
+
+            return con;
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+        return null;
+    }
+
     public static BufferedReader getReader(final URL url, String username, String password) {
         try {
             String data = URLEncoder.encode("username", "UTF-8") + "=" + username;
