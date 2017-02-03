@@ -8,6 +8,19 @@ public class StringUtil {
     private static java.util.Random random = new java.util.Random();
     private static char[] chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890".toCharArray();
 
+    public static String implode(String separator, String... data) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < data.length - 1; i++) {
+            //data.length - 1 => to not add separator at the end
+            if (!data[i].matches(" *")) {//empty string are ""; " "; "  "; and so on
+                sb.append(data[i]);
+                sb.append(separator);
+            }
+        }
+        sb.append(data[data.length - 1].trim());
+        return sb.toString();
+    }
+
     public static String convertHexToString(String hex) {
 
         StringBuilder sb = new StringBuilder();

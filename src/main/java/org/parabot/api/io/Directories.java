@@ -6,6 +6,7 @@ import org.parabot.api.output.Verboser;
 import javax.swing.*;
 import java.io.File;
 import java.io.FilenameFilter;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -209,8 +210,13 @@ public class Directories {
         if (cache != null) {
             for (File f : cache) {
                 if (f != null && System.currentTimeMillis() / 1000 - f.lastModified() / 1000 > remove) {
-                    Verboser.verbose("Clearing " + f.getName() + " from cache...");
-                    f.delete();
+                    Verboser.verbose("Clearing " + (f.isDirectory() ? "directory " : "file ") + f.getName() + " from cache...");
+
+                    try {
+                        FileUtil.delete(f);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }
