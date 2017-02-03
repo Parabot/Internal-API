@@ -1,6 +1,5 @@
 package org.parabot.api.notifications.types;
 
-import com.github.sheigutn.pushbullet.Pushbullet;
 import org.parabot.api.misc.OperatingSystem;
 
 import javax.swing.*;
@@ -11,7 +10,7 @@ import javax.swing.*;
 public class PushBulletNotificationType extends NotificationType {
 
     private boolean available = false;
-    private Pushbullet pushbullet;
+    private com.github.sheigutn.pushbullet.Pushbullet pushbullet;
 
     public PushBulletNotificationType() {
         super("PushBullet");
@@ -24,7 +23,7 @@ public class PushBulletNotificationType extends NotificationType {
                 String message = "Please insert your PushBullet API key, so we could send notifications.\nHit cancel to disable.";
                 String s = JOptionPane.showInputDialog(null, message, "PushBullet API key", JOptionPane.QUESTION_MESSAGE);
                 if (s != null) {
-                    Pushbullet pushbullet = new Pushbullet(s);
+                    com.github.sheigutn.pushbullet.Pushbullet pushbullet = new com.github.sheigutn.pushbullet.Pushbullet(s);
                     this.pushbullet = pushbullet;
 
                     pushbullet.pushNote("Parabot", "PushBullet notifications have been enabled!");
