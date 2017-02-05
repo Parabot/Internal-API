@@ -32,10 +32,10 @@ public class NotificationManager {
     private void fillNotificationTypes() {
         this.notificationTypes.add(new MacNotificationType());
 
-        PushBulletNotificationType pushBullet = new PushBulletNotificationType();
-        if (pushBullet.isAvailable()){
-            this.notificationTypes.add(pushBullet);
-        }
+//        PushBulletNotificationType pushBullet = new PushBulletNotificationType();
+//        if (pushBullet.isAvailable()){
+//            this.notificationTypes.add(pushBullet);
+//        }
     }
 
     public ArrayList<NotificationType> getAvailableNotificationTypes() {
