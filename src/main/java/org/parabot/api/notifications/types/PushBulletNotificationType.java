@@ -23,7 +23,7 @@ public class PushBulletNotificationType extends NotificationType {
                 String message = "Please insert your PushBullet API key, so we could send notifications.\nHit cancel to disable.";
                 String s = JOptionPane.showInputDialog(null, message, "PushBullet API key", JOptionPane.QUESTION_MESSAGE);
                 if (s != null) {
-                    PushBulletController.pushNote("Parabot", "PushBullets have been enabled for Parabot", s);
+                    PushBulletController.pushNote("Parabot", "PushBullets notifications have been enabled for Parabot", s);
 
                     this.available = true;
                 }
