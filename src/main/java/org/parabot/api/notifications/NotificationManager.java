@@ -5,6 +5,7 @@ import org.parabot.api.notifications.types.NotificationType;
 import org.parabot.api.notifications.types.PushBulletNotificationType;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * @author JKetelaar
@@ -41,6 +42,17 @@ public class NotificationManager {
         type.enable();
     }
 
+    public void disableNotificationType(NotificationType type) {
+        Iterator iterator = this.enabledTypes.iterator();
+        while(iterator.hasNext()){
+            NotificationType t = (NotificationType) iterator.next();
+            if (t.getName().equalsIgnoreCase(type.getName())){
+                iterator.remove();
+                break;
+            }
+        }
+    }
+
     public void sendNotification(String message) {
         for (NotificationType notificationType : this.enabledTypes) {
             notificationType.notify(message);
@@ -57,6 +69,10 @@ public class NotificationManager {
         for (NotificationType notificationType : this.enabledTypes) {
             notificationType.notify(title, header, message);
         }
+    }
+
+    public ArrayList<NotificationType> getEnabledTypes() {
+        return enabledTypes;
     }
 
     public ArrayList<NotificationType> getAvailableNotificationTypes() {

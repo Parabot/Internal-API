@@ -29,11 +29,18 @@ public class PushBulletNotificationType extends NotificationType {
 
     @Override
     public void enable() {
-        String message = "Please insert your PushBullet API key, so we could send notifications.";
-        String s = JOptionPane.showInputDialog(null, message, "PushBullet API key", JOptionPane.QUESTION_MESSAGE);
-        if (s != null) {
-            this.enabled = PushBulletController.pushNote("Parabot", "PushBullets notifications have been enabled for Parabot", s);
-        }
+        final String message = "Please insert your PushBullet API key, so we could send notifications.";
+
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                String s = JOptionPane.showInputDialog(null, message, "PushBullet API key", JOptionPane.QUESTION_MESSAGE);
+
+                if (s != null) {
+                    enabled = PushBulletController.pushNote("Parabot", "PushBullets notifications have been enabled for Parabot", s);
+                }
+            }
+        });
     }
 
     @Override
