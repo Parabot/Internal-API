@@ -25,12 +25,13 @@ public class PushBulletController {
         return PushBulletController.pushBulletInstance;
     }
 
-    public static void pushNote(String title, String message, String key){
+    public static boolean pushNote(String title, String message, String key){
         PushBulletController.setPushBulletInstance(key);
-        PushBulletController.pushNote(title, message);
+
+        return PushBulletController.pushNote(title, message);
     }
 
-    public static void pushNote(String title, String message){
+    public static boolean pushNote(String title, String message){
         Class[] cArg = new Class[2];
         cArg[0] = String.class;
         cArg[1] = String.class;
@@ -40,9 +41,12 @@ public class PushBulletController {
                 Method method = PushBulletController.pushBulletInstance.getClass().getMethod("pushNote", cArg);
                 method.setAccessible(true);
                 method.invoke(PushBulletController.pushBulletInstance, title, message);
+
+                return true;
             } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                e.printStackTrace();
+                return false;
             }
         }
+        return false;
     }
 }

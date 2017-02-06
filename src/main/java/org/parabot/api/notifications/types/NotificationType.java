@@ -28,4 +28,6 @@ public abstract class NotificationType {
     public String getName() {
         return name;
     }
+
+    public void enable(){}
 }
