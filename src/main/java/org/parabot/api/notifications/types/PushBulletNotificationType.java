@@ -1,5 +1,7 @@
 package org.parabot.api.notifications.types;
 
+import org.parabot.api.io.libraries.Environment;
+import org.parabot.api.io.libraries.jpushbullet.JPushBullet;
 import org.parabot.api.notifications.types.pushbullet.PushBulletController;
 
 import javax.swing.*;
@@ -37,6 +39,7 @@ public class PushBulletNotificationType extends NotificationType {
                 String s = JOptionPane.showInputDialog(null, message, "PushBullet API key", JOptionPane.QUESTION_MESSAGE);
 
                 if (s != null) {
+                    Environment.loadLibrary(new JPushBullet());
                     enabled = PushBulletController.pushNote("Parabot", "PushBullets notifications have been enabled for Parabot", s);
                 }
             }
