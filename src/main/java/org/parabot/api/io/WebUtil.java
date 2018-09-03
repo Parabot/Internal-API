@@ -274,20 +274,33 @@ public class WebUtil {
             } else {
                 connection = getConnection(url, username, password);
             }
-            int size = connection.getContentLength();
+            final int size = connection.getContentLength();
             SizeInputStream sizeInputStream = new SizeInputStream(
                     connection.getInputStream(), size, listener);
             BufferedInputStream in = new BufferedInputStream(sizeInputStream);
             FileOutputStream fileOut = new FileOutputStream(destination);
+            final double before = listener == null ? 0d : listener.getCurrentProgress();
+            final long startTime = System.currentTimeMillis();
+            int totalRead = 0;
             try {
                 byte data[] = new byte[1024];
                 int count;
                 while ((count = in.read(data, 0, 1024)) != -1) {
                     fileOut.write(data, 0, count);
+                    totalRead += count;
+                    if (listener != null) {
+                        double progress = (((double)totalRead / (double)size) * 100d);
+                        String rate = (totalRead / Math.max(1, ((System.currentTimeMillis()-startTime)/1000))) + "/s";
+                        listener.updateMessageAndProgress(String.format("[%s] Downloading... %02f%% (%s of %s bytes) %s from %s to %s", WebUtil.class.getName(), progress, totalRead, size, rate, url.getPath(), destination.getAbsolutePath()),
+                                progress);
+                    }
                 }
             } finally {
                 in.close();
                 fileOut.close();
+            }
+            if (listener != null) {
+                listener.onProgressUpdate(before);
             }
         } catch (Throwable t) {
             t.printStackTrace();
