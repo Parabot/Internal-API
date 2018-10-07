@@ -6,7 +6,7 @@ jdk:
 
 before_install:
   - chmod +x ./.travis/maven-build.sh
-    - chmod +x ./.travis/call-creation.sh
+  - chmod +x ./.travis/call-creation.sh
   - mvn clean
 
 install:
@@ -14,7 +14,7 @@ install:
 
 script: "./.travis/maven-build.sh"
 
-after_deploy: "./.travis/call-creation.sh"
+#after_deploy: "./.travis/call-creation.sh"
 
 notifications:
   email: false
