@@ -1,17 +1,20 @@
 language: java
 
 jdk:
-  - oraclejdk7
+  - openjdk7
   - oraclejdk8
 
 before_install:
   - chmod +x ./.travis/maven-build.sh
+  - chmod +x ./.travis/call-creation.sh
   - mvn clean
 
 install:
   - sudo apt-get update && sudo apt-get --assume-yes install zip unzip
 
 script: "./.travis/maven-build.sh"
+
+#after_deploy: "./.travis/call-creation.sh"
 
 notifications:
   email: false
@@ -21,6 +24,10 @@ notifications:
     on_success: always
     on_failure: always
     on_start: never
+
+env:
+  global:
+    - INTERNAL_API_VERSION=1.51.2
 
 cache:
   directories:
@@ -35,4 +42,4 @@ deploy:
       repo: Parabot/Internal-API
       branch:
         - master
-      jdk: 'oraclejdk7'
+      jdk: 'openjdk7'
