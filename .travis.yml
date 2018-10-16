@@ -1,7 +1,9 @@
 language: java
 
+dist: trusty
+
 jdk:
-  - oraclejdk7
+  - openjdk7
   - oraclejdk8
 
 before_install:
@@ -35,4 +37,4 @@ deploy:
       repo: Parabot/Internal-API
       branch:
         - master
-      jdk: 'oraclejdk7'
+      jdk: 'openjdk7'
