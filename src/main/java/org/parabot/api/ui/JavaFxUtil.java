@@ -5,7 +5,6 @@ import javafx.embed.swing.JFXPanel;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
-import org.parabot.api.Configuration;
 import org.parabot.api.io.ProgressListener;
 import org.parabot.api.io.WebUtil;
 import org.parabot.api.output.Verboser;
@@ -14,8 +13,6 @@ import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
 import java.net.URL;
 
 /**
@@ -27,16 +24,17 @@ import java.net.URL;
  */
 public abstract class JavaFxUtil {
 
-    private       JFrame     frame;
-    private       JFXPanel   jfxp;
-    private       JavaFxUtil INSTANCE;
-    private final URL        end;
-    private final File       target;
-    private final Class<?> controller;
+    private       JFrame           frame;
+    private       JFXPanel         jfxp;
+    private       JavaFxUtil       instance;
+    private final URL              end;
+    private final File             target;
+    private final Class<?>         controller;
     private final ProgressListener listener;
 
     /**
      * Constructor to use when stylesheet.fxml is in the Parabot Jar
+     *
      * @param fxmlSheet Location to .fxml such as "/storage/ui/notifications.fxml"
      */
     public JavaFxUtil(final URL fxmlSheet, final Class<?> controller) {
@@ -49,6 +47,7 @@ public abstract class JavaFxUtil {
 
     /**
      * Constructor to use when stylesheet.fxml requires downloading from a remote target.
+     *
      * @param endpoint
      * @param target
      * @param listener
@@ -63,7 +62,7 @@ public abstract class JavaFxUtil {
         if (!target.exists() || !target.canRead()) {
             WebUtil.downloadFile(end, target, listener);
         }
-        Verboser.verbose("ui from "+end);
+        Verboser.verbose("ui from " + end);
 
         launchJFX();
     }
@@ -97,7 +96,7 @@ public abstract class JavaFxUtil {
             return;
         }
         frame = new JFrame();
-        jfxp  = new JFXPanel();
+        jfxp = new JFXPanel();
         getFrame().add(jfxp);
         getFrame().setSize(230, 300);
         getFrame().setLocationRelativeTo(null);
@@ -105,7 +104,7 @@ public abstract class JavaFxUtil {
 
         getFrame().setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         getFrame().addWindowListener(getWindowAdapter());
-        Verboser.verbose("frame created: "+ getFrame());
+        Verboser.verbose("frame created: " + getFrame());
     }
 
     protected abstract WindowAdapter getWindowAdapter();
@@ -115,11 +114,12 @@ public abstract class JavaFxUtil {
      */
     private void addJavaFX() {
         Verboser.verbose("panel init");
-        INSTANCE = this;
+        instance = this;
         try {
             FXMLLoader loader = new FXMLLoader(end); // ui.fxml
-            if (loader.getController() == null)
+            if (loader.getController() == null) {
                 loader.setController(controller.newInstance());
+            }
             Pane page = (Pane) loader.load();
 
             Scene scene = new Scene(page);
