@@ -1,12 +1,10 @@
 package org.parabot.api.io;
 
 import org.json.simple.parser.JSONParser;
+import org.parabot.api.output.Verboser;
 
 import java.io.*;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
+import java.net.*;
 
 /**
  * A WebUtil class fetches data from an URL
@@ -302,6 +300,7 @@ public class WebUtil {
             if (listener != null) {
                 listener.onProgressUpdate(before);
             }
+            Verboser.verbose("[WebUtil] Downloaded " + totalRead + " bytes from " + url + " -> " + destination.getAbsolutePath());
         } catch (Throwable t) {
             t.printStackTrace();
         }

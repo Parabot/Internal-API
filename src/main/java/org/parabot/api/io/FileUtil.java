@@ -1,5 +1,7 @@
 package org.parabot.api.io;
 
+import org.parabot.api.output.Verboser;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -93,7 +95,9 @@ public class FileUtil {
         if (file.isDirectory()) {
             if (file.list().length == 0) {
 
-                file.delete();
+                boolean success = file.delete();
+                Verboser.verbose(success ? "Deleted " + file.getAbsolutePath() + " OK" :
+                        "FAILED to delete " + file.getAbsolutePath());
             } else {
 
                 String files[] = file.list();
@@ -104,12 +108,16 @@ public class FileUtil {
                 }
 
                 if (file.list().length == 0) {
-                    file.delete();
+                    boolean success = file.delete();
+                    Verboser.verbose(success ? "Deleted " + file.getAbsolutePath() + " OK" :
+                            "FAILED to delete " + file.getAbsolutePath());
                 }
             }
 
         } else {
-            file.delete();
+            boolean success = file.delete();
+            Verboser.verbose(success ? "Deleted " + file.getAbsolutePath() + " OK" :
+                    "FAILED to delete " + file.getAbsolutePath());
         }
     }
 }

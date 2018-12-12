@@ -210,7 +210,7 @@ public class Directories {
         if (cache != null) {
             for (File f : cache) {
                 if (f != null && System.currentTimeMillis() / 1000 - f.lastModified() / 1000 > remove) {
-                    Verboser.verbose("Clearing " + (f.isDirectory() ? "directory " : "file ") + f.getName() + " from cache...");
+                    Verboser.verbose("Clearing " + (f.isDirectory() ? "directory " : "file ") + f.getName() + " from cache (" + (force ? "Force-cleared" : "Expired") + ")...");
 
                     try {
                         FileUtil.delete(f);
