@@ -37,17 +37,10 @@ public abstract class JavaFxUtil {
 
     /**
      * Constructor to use when stylesheet.fxml is in the Parabot Jar
-     * @param controllerPath Location to .fxml such as "/storage/ui/notifications.fxml"
+     * @param fxmlSheet Location to .fxml such as "/storage/ui/notifications.fxml"
      */
-    public JavaFxUtil(final String controllerPath, final Class<?> controller) {
-        URL end1;
-        try {
-            end1 = Configuration.class.getClass().getResource(controllerPath).toURI().toURL();
-        } catch (MalformedURLException | URISyntaxException e) {
-            end1 = null;
-            e.printStackTrace();
-        }
-        this.end = end1;
+    public JavaFxUtil(final URL fxmlSheet, final Class<?> controller) {
+        this.end = fxmlSheet;
         this.target = null;
         this.listener = null;
         this.controller = controller;
@@ -56,20 +49,13 @@ public abstract class JavaFxUtil {
 
     /**
      * Constructor to use when stylesheet.fxml requires downloading from a remote target.
-     * @param endString
+     * @param endpoint
      * @param target
      * @param listener
      * @param controller
      */
-    public JavaFxUtil(String endString, final File target, final ProgressListener listener, final Class<?> controller) {
-        URL endp;
-        try {
-            endp = new URL(endString);
-        } catch (MalformedURLException e) {
-            endp = null;
-            e.printStackTrace();
-        }
-        this.end = endp;
+    public JavaFxUtil(URL endpoint, final File target, final ProgressListener listener, final Class<?> controller) {
+        this.end = endpoint;
         this.target = target;
         this.listener = listener;
         this.controller = controller;
