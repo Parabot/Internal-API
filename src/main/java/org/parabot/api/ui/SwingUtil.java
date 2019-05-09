@@ -30,6 +30,8 @@ public class SwingUtil {
      * Adds the dock icon to mac users
      *
      * @param f
+     *
+     * @deprecated As of release 1.60.2, replaced by {@link #setParabotIcon(JFrame)}
      */
     public static void setParabotIcons(JFrame f) {
         setParabotIcon(f);
