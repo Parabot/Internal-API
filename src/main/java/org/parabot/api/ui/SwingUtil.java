@@ -32,7 +32,7 @@ public class SwingUtil {
      * @param f
      */
     public static void setParabotIcons(JFrame f) {
-        setParabotIcons(f);
+        setParabotIcon(f);
     }
 
     /**
