@@ -8,7 +8,8 @@ public class Version implements Comparable<Version> {
         if (version == null) {
             throw new IllegalArgumentException("Version can not be null");
         }
-        if (!version.matches("[0-9]+(\\.[0-9]+)*")) {
+
+        if (!version.matches("[0-9]+(\\.[0-9]+)*") && !version.matches("[0-9]+(\\.[0-9]+)*-RC-([0-9]+)")) {
             throw new IllegalArgumentException("Invalid version format");
         }
         this.version = version;
@@ -18,14 +19,20 @@ public class Version implements Comparable<Version> {
         return this.version;
     }
 
+    public boolean isNightly() {
+        return this.version.contains("RC");
+    }
+
     @Override
     public int compareTo(Version that) {
         if (that == null) {
             return 1;
         }
+
         String[] thisParts = this.get().split("\\.");
         String[] thatParts = that.get().split("\\.");
-        int length = Math.max(thisParts.length, thatParts.length);
+        int      length    = Math.max(thisParts.length, thatParts.length);
+
         for (int i = 0; i < length; i++) {
             int thisPart = i < thisParts.length ?
                     Integer.parseInt(thisParts[i]) : 0;
@@ -45,5 +52,4 @@ public class Version implements Comparable<Version> {
     public boolean equals(Object that) {
         return this == that || that != null && this.getClass() == that.getClass() && this.compareTo((Version) that) == 0;
     }
-
 }
